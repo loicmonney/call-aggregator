@@ -1,0 +1,7 @@
+# Dummy files
+.DS_Store
+target
+
+# IDE
+.idea
+*.iml
