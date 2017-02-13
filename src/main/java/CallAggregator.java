@@ -19,7 +19,7 @@ public class CallAggregator {
         @Override
         public int compare(CallPart o1, CallPart o2) {
             if (o1.ts == o2.ts) {
-                return 0;
+                return o1.isStart ? 1 : -1; // the ends are before the starts !!
             }
             return o1.ts > o2.ts ? 1 : -1;
         }
@@ -38,18 +38,14 @@ public class CallAggregator {
 
         int max = 0;
         int currentNumberOfCall = 0;
-        long lastTs = -1;
         for (CallPart callPart : startAndEnds) {
-            if (lastTs != callPart.ts) {
-                max = Math.max(max, currentNumberOfCall);
-            }
             if (callPart.isStart) {
                 currentNumberOfCall++;
             } else {
                 currentNumberOfCall--;
             }
+            max = Math.max(max, currentNumberOfCall); // because ends are before starts
         }
-        max = Math.max(max, currentNumberOfCall);
 
         return max;
     }
